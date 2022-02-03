@@ -1,28 +1,24 @@
-import re
 import os
-from page_loader.constants import *
+import re
+from urllib.parse import urlparse
 
 
 def get_filename(url):
-    filename, extension = get_new_name(url)
-    return add_extension(filename, extension)
+    filename, ext = url_to_slug_and_ext(url)
+    return str(filename + ext)
 
 
 def get_dirname(url):
-    filename, _ = get_new_name(url)
-    return filename + '_files'
+    filename, _ = url_to_slug_and_ext(url)
+    return str(filename + '_files')
 
 
-def get_new_name(s):
-    page, extension = os.path.splitext(s)
-    if extension:
-        pass
-    else:
-        extension = '.html'
-    page = re.sub(PROTOCOL, "", s)
-    page = re.sub(re.compile(NUMBER_LETTERS), '-', page)
-    return page, extension
+def url_to_slug_and_ext(url):
+    result_url_parse = urlparse(url)
+    path, ext = os.path.splitext(result_url_parse.path)
+    return (replace_chars(result_url_parse.netloc + path),
+            ext if ext else '.html')
 
 
-def add_extension(page, extension):
-    return page + extension
+def replace_chars(s):
+    return re.sub(re.compile(r'[^0-9a-zA-Z]+'), '-', s)

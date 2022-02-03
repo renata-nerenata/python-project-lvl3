@@ -3,3 +3,5 @@
 .idea/
 ru-hexlet-io-courses.html
 .DS_Store
+tests/__pycache__/
+/tests/fixtures/
