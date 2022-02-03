@@ -13,15 +13,13 @@ def create_if_not_exists(path):
 
 def download(url, path=''):
     data = requests.get(url)
-    if data.status_code == 204:
-        logging.warning('URL is not exists'.format(path))
+    if data.status_code != 200:
+        logging.warning('URL Problems: {}'.format(data.status_code))
 
     path_saving = os.path.join(os.getcwd(), path)
     path_page = os.path.join(path_saving, get_filename(url))
     path_assets = os.path.join(path_saving, get_dirname(url))
 
-    create_if_not_exists(path_saving)
-    create_if_not_exists(path_page)
     create_if_not_exists(path_assets)
 
     assets = download_assets(data.text,

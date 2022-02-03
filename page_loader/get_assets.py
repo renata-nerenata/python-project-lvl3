@@ -28,12 +28,10 @@ def download_assets(page_html, page_url, directory, path_assets):
 
 
 def get_type(tag):
-    if tag == 'img':
+    if (tag == 'img') or (tag == 'script'):
         return 'src'
     elif tag == 'link':
         return 'href'
-    elif tag == 'script':
-        return 'src'
 
 
 def download_asset(url, full_path_assets):
